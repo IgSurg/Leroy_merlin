@@ -16,7 +16,7 @@ import re
 from scrapy.loader.processors import MapCompose, TakeFirst
 
 
-def process_to_int(value):  # Преобразую в int то, что получается преобразовать без особой обработки
+def process_to_int(value):  # Преобразую в int
     try:
         if value != None:
             value = int(re.search(r'\d+', f"{value.replace(' ', '')}").group())
@@ -25,7 +25,7 @@ def process_to_int(value):  # Преобразую в int то, что полу�
         print(e)
 
 
-def process_to_float(value):  # Преобразую во float то, что получается преобразовать без особой обработки
+def process_to_float(value):  # Преобразую во float
     try:
         new_value =[]
         try:

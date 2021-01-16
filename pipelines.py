@@ -29,7 +29,7 @@ class LMImagesPipeLine(ImagesPipeline):
         item['images'] = [itm[1] for itm in results if itm[0]]
         return item
 
-    def file_path(self, request, response=None, info=None, *, item=None):  # В качестве пути и названия файла используется артикул(name) и хеш соответственно
+    def file_path(self, request, response=None, info=None, *, item=None):  # В качестве пути и названия файла используется (name)
         image_guid = hashlib.sha1(to_bytes(request.url)).hexdigest()
         return f'full/{item["name"]}/{image_guid}.jpg'
 
@@ -43,8 +43,8 @@ class LeroyMerlinPipeline:
     def process_item(self, item, spider):
         t = len(item['info_key'])  # Для того, чтобы объединить поля получаю длину списка ключей, чтобы для каждого имеющегося ключа подобрать значение
         item['info'] = self.process_info(item['info_key'], item['info_item'], t)  # Получаю поля содержащие в себе ключ: значение
-        del item['info_key']  # Убираю более не нужные поля содержащие в себе ключи
-        del item['info_item'] # Убираю более не нужные поля содержащие в себе значения
+        del item['info_key']  # Убираю более не нужные поля
+        del item['info_item'] # Убираю более не нужные поля
 
         collection = self.db[spider.name]
         try:
@@ -53,8 +53,8 @@ class LeroyMerlinPipeline:
             pass
         return item
 
-    def process_info(self, key, item, t):  # Объединяю список ключей со списком значений
-        list = {}
+    def process_info(self, key, item, t):  # Объединение списка ключей со списком значений
+        li = {}
         for el in range(t):
-            list.update({key[el].replace('\n', '').replace('  ', ''): item[el]})
-        return list
+            li.update({key[el].replace('\n', '').replace('  ', ''): item[el]})
+        return li
